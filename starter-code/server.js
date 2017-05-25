@@ -8,7 +8,7 @@ const requestProxy = require('express-request-proxy'); // REVIEW: We've added a 
 const PORT = process.env.PORT || 3000;
 const app = express();
 // const conString = 'postgres://USERNAME:PASSWORD@HOST:PORT';
-const conString = ''; // TODO: Don't forget to set your own conString
+const conString = 'postgres://localhost:5432'; // TODO: Don't forget to set your own conString
 const client = new pg.Client(conString);
 client.connect();
 client.on('error', err => console.error(err));
@@ -18,7 +18,8 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static('./public'));
 
 
-// COMMENT: What is this function doing? Why do we need it? Where does it receive a request from?
+// COMMENT - DONE: What is this function doing? Why do we need it? Where does it receive a request from?
+//1. This function is the github  api request to retrive the repos based on the github token. 2. We need this inorder to mask and complete our request to the github api without running the risk of exposing github token. 3. The initial request is coming from the repos.requestRepos function then it is routed to the "/github/*" route.  
 // (put your response in a comment here)
 function proxyGitHub(request, response) {
   console.log('Routing GitHub request for', request.params[0]);
@@ -29,8 +30,9 @@ function proxyGitHub(request, response) {
 }
 
 
-// COMMENT: What is this route doing? Where does it receive a request from?
+// COMMENT - DONE: What is this route doing? Where does it receive a request from?
 // (put your response in a comment here)
+//1. This route is serving the new.html page. 2. This route is only invoked if the user manually entered the "/new" route in the URL.
 app.get('/new', (request, response) => response.sendFile('new.html', {root: './public'}));
 app.get('/admin', (request, response) => response.sendFile('admin.html', {root: './public'}));
 app.get('/github/*', proxyGitHub);
@@ -106,8 +108,9 @@ app.post('/articles', function(request, response) {
 });
 
 
-// COMMENT: What is this route doing? Where does it receive a request from?
+// COMMENT - DONE: What is this route doing? Where does it receive a request from?
 // (put your response in a comment here)
+// 1. This route is updating the article and/or author based on the article_id. 2. This route can only be invoked by communicating directly to the server via rest method from a console or other application.
 app.put('/articles/:id', (request, response) => {
   client.query(`
     UPDATE authors

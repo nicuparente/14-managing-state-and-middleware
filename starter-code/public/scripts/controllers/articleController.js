@@ -4,8 +4,9 @@ var app = app || {};
 (function(module) {
   const articleController = {};
 
-  // COMMENT: What is this function doing? Where is it called? Does it call any other functions, and if so, in what file(s) do those function(s) live?
+  // COMMENT - DONE: What is this function doing? Where is it called? Does it call any other functions, and if so, in what file(s) do those function(s) live?
   // (put your response in a comment here)
+  //1. This function is calling the app.articleView.index using the previous context article property as the argument. 2. It can be called by three possible routes routes.js '/', '/author/:authorName','/category/:categoryName'. 3. It calls the app.articleView.index that lives in articleView.js.
   articleController.index = (ctx) => app.articleView.index(ctx.articles);
 
   // REVIEW: Middleware for grabbing one article by ID:
@@ -15,8 +16,9 @@ var app = app || {};
       next();
     };
 
-    // COMMENT: What is this function doing? Where is it called? Does it call any other functions, and if so, in what file(s) do those function(s) live?
+    // COMMENT - DONE: What is this function doing? Where is it called? Does it call any other functions, and if so, in what file(s) do those function(s) live?
     // (put your response in a comment here)
+    // 1. This function is invoking the findWhere method from the articles.js passing the article_id as the field, passing the artictle_id route parameter as the value and the articleData function as the call back function. 2. It is called when the loadById method is invoked in the /article/:article_id route. 3. It calls articleData which lives in the same scope. 
     app.Article.findWhere('article_id', ctx.params.article_id, articleData);
   };
 
